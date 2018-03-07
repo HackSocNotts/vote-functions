@@ -5,14 +5,11 @@
 
 // External Imports
 import { https, Request, Response } from 'firebase-functions';
-import { firestore } from 'firebase-admin';
 import { RetrieveDocument } from '../RetrieveDocument/RetrieveDocument';
 import {RetrieveBasicVotes} from "../RetrieveVotes/Basic";
 import {CalculateBasicResult} from "../CalculateResult/Basic";
 import {basicBallotModel} from "../models/basicBallot.model";
 import {BallotType} from "../enums/ballotType.enum";
-
-const db = firestore();
 
 export const BasicBallot = https.onRequest((req: Request, res: Response) => {
     // Validate Request Data
