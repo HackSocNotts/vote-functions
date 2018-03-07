@@ -1,6 +1,6 @@
 export enum BallotType {
-    Basic,
-    NoAbstain,
-    SingleSeat,
-    MultiSeat
+    Basic = 1,
+    NoAbstain = 2,
+    SingleSeat = 3,
+    MultiSeat = 4
 }
