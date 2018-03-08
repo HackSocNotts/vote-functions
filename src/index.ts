@@ -5,3 +5,4 @@ import { initializeApp } from  'firebase-admin';
 initializeApp(config().firebase);
 
 export { BasicBallot } from './BasicBallot/cloudFunction';
+export { AVBallot } from './AVBallot/cloudFunction';
