@@ -10,8 +10,11 @@ import {RetrieveBasicVotes} from "../RetrieveVotes/Basic";
 import {CalculateBasicResult} from "../CalculateResult/Basic";
 import {basicBallotModel} from "../models/basicBallot.model";
 import {BallotType} from "../enums/ballotType.enum";
+import {Cors} from "../Cors/cors";
 
 export const BasicBallot = https.onRequest((req: Request, res: Response) => {
+    Cors(req, res, data => data);
+    res.header('Access-Control-Allow-Origin', '*');
     // Validate Request Data
     if (req.method !== 'GET') { res.status(400).send('Request must be GET'); }
     const election_id: string = req.query.election || res.status(400).json({error: "No election specified."});
