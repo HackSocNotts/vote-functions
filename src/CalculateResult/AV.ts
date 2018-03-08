@@ -2,33 +2,18 @@ import {advVoteModel} from "../models/advVote.model";
 import {candidateModel} from "../models/candidate.model";
 import {AVResultModel} from "../models/AVResult.model";
 
-export const CalculateAVResult = (votes: advVoteModel[], candidates: candidateModel[]): AVResultModel => {
-    const result = {
-        elected: undefined,
-        log: []
-    };
-
-    let candidates_to_use = candidates.map(candidate => candidate.id);
-    let round_result = {passed: false, candidate: undefined};
-
-    do {
-        round_result = calculate_round(votes, candidates_to_use);
-        console.log(round_result);
-        if (round_result.passed === false) {
-            const candidate_reference = candidates.filter(candidate => candidate.id === round_result.candidate)[0];
-            result.log.push(candidate_reference.name + ' was eliminated.');
-            candidates_to_use = candidates_to_use.filter(candidate => candidate !== round_result.candidate);
-        } else if (round_result.passed === true) {
-            const candidate_reference = candidates.filter(candidate => candidate.id === round_result.candidate)[0];
-            result.log.push(candidate_reference.name + ' was elected.');
-            result.elected = candidate_reference;
-        } else {
-            result.log.push('Unknown error occurred and no result was determined.');
+const find_vote_to_talley = (vote: advVoteModel, candidates: string[]): string | false => {
+    let counter = 1;
+    while (counter <= Object.keys(vote).length) {
+        if (vote[counter] === undefined) { // Check if vote has been cast for current level
+            return false;
+        } else if (candidates.includes(vote[counter])) { // Check if vote at level is a valid candidate
+            return vote[counter];
+        } else { // Go to next level
+            counter ++;
         }
-
-    } while (round_result.passed === false);
-
-    return result;
+    }
+    return false;
 };
 
 const calculate_round = (votes: advVoteModel[], candidates: string[]): {passed: boolean, candidate: string} => {
@@ -60,7 +45,7 @@ const calculate_round = (votes: advVoteModel[], candidates: string[]): {passed: 
     console.log('min %s ; max%s', min, max);
 
     if (max >= threshold) {
-    //    Passed
+        //    Passed
         const elected = Object.keys(tally).reduce((a, b) => tally[a] > tally[b] ? a : b);
         return {
             passed: true,
@@ -75,16 +60,31 @@ const calculate_round = (votes: advVoteModel[], candidates: string[]): {passed: 
     }
 };
 
-const find_vote_to_talley = (vote: advVoteModel, candidates: string[]): string | false => {
-    let counter = 1;
-    while (counter <= Object.keys(vote).length) {
-        if (vote[counter] === undefined) { // Check if vote has been cast for current level
-            return false;
-        } else if (candidates.includes(vote[counter])) { // Check if vote at level is a valid candidate
-            return vote[counter];
-        } else { // Go to next level
-            counter ++;
+export const CalculateAVResult = (votes: advVoteModel[], candidates: candidateModel[]): AVResultModel => {
+    const result = {
+        elected: undefined,
+        log: []
+    };
+
+    let candidates_to_use = candidates.map(candidate => candidate.id);
+    let round_result = {passed: false, candidate: undefined};
+
+    do {
+        round_result = calculate_round(votes, candidates_to_use);
+        console.log(round_result);
+        if (round_result.passed === false) {
+            const candidate_reference = candidates.filter(candidate => candidate.id === round_result.candidate)[0];
+            result.log.push(candidate_reference.name + ' was eliminated.');
+            candidates_to_use = candidates_to_use.filter(candidate => candidate !== round_result.candidate);
+        } else if (round_result.passed === true) {
+            const candidate_reference = candidates.filter(candidate => candidate.id === round_result.candidate)[0];
+            result.log.push(candidate_reference.name + ' was elected.');
+            result.elected = candidate_reference;
+        } else {
+            result.log.push('Unknown error occurred and no result was determined.');
         }
-    }
-    return false;
+
+    } while (round_result.passed === false);
+
+    return result;
 };
