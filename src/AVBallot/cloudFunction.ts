@@ -9,8 +9,10 @@ import { RetrieveDocument } from '../RetrieveDocument/RetrieveDocument';
 import {RetrieveADVVotes} from "../RetrieveVotes/ADV";
 import {RetrieveAllCandidate} from "../RetrieveCandidates/All";
 import {CalculateAVResult} from "../CalculateResult/AV";
+import {Cors} from "../Cors/cors";
 
 export const AVBallot = https.onRequest((req: Request, res: Response) => {
+    Cors(req, res, data => data);
     // Validate Request Data
     if (req.method !== 'GET') { res.status(400).send('Request must be GET'); }
     const election_id: string = req.query.election || res.status(400).json({error: "No election specified."});
