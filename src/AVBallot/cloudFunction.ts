@@ -30,10 +30,19 @@ export const AVBallot = https.onRequest((req: Request, res: Response) => {
             const Candidates = data[2].filter(candidate => Ballot.candidates.includes(candidate.id));
             try {
                 const Result = CalculateAVResult(Votes, Candidates);
-                res.json([Ballot, Votes, Candidates, Result]);
+                res.json({
+                    result: Result,
+                    ballot: {
+                        id: Ballot.id,
+                        type: Ballot.type,
+                        name: Ballot.name,
+                        candidates: Candidates,
+                        votes: Votes
+                    }
+                });
             } catch (e) {
                 console.error(e);
-                res.json([Ballot, Votes, Candidates]);
+                res.status(500).json(e);
             }
 
 
