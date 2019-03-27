@@ -22,7 +22,7 @@ export const BasicBallot = https.onRequest((req: Request, res: Response) => {
 
     // Create Firebase Path
     const firebasePath = 'election/' + election_id + '/ballots/' + ballot_id;
-    const document = RetrieveDocument(firebasePath);
+    const document = RetrieveDocument<any>(firebasePath);
     const votes = RetrieveBasicVotes(election_id, ballot_id);
 
     Promise.all([document, votes])

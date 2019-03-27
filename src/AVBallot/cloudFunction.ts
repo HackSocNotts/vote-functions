@@ -22,7 +22,7 @@ export const AVBallot = https.onRequest((req: Request, res: Response) => {
     // Create Firebase Path
     const firebasePath = 'election/' + election_id + '/ballots/' + ballot_id;
     console.log(firebasePath);
-    const document = RetrieveDocument(firebasePath);
+    const document = RetrieveDocument<any>(firebasePath);
     const votes = RetrieveADVVotes(election_id, ballot_id);
     const candidates = RetrieveAllCandidate(election_id);
 
