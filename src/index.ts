@@ -7,3 +7,5 @@ initializeApp(config().firebase);
 export { BasicBallot } from './BasicBallot/cloudFunction';
 export { AVBallot } from './AVBallot/cloudFunction';
 export { UpdateMembers } from './UpdateMembers/cloudFunction';
+export { AssignCode } from './AssignCode/cloudFunction';
+
