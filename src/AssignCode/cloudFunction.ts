@@ -5,11 +5,9 @@
 
 // External Imports
 import { https, Request, Response } from 'firebase-functions';
-import { RetrieveDocument } from '../RetrieveDocument/RetrieveDocument';
 import {Cors} from "../Cors/cors";
 import { firestore } from 'firebase-admin';
-import { studentModel } from '../models/student.model';
-import { DocumentSnapshot, Query, QuerySnapshot } from '@google-cloud/firestore';
+import { DocumentSnapshot, QuerySnapshot } from '@google-cloud/firestore';
 import memberExists from '../GetMembers/memberExists';
 import { electorModel } from '../models/elector.model';
 const db = firestore();
