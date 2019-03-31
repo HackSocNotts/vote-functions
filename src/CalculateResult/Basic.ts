@@ -28,7 +28,11 @@ export const CalculateBasicResult = (votes: BasicVote[]): BasicResultModel => {
         }
     }
 
-    result.passed = result.for > result.against;
+    if (result.abstain != 0) {
+        result.passed = result.for > result.against;
+    }
+
+    result.passed = (result.for >= (votes.length / 3 )* 2);
 
     return result;
 };
