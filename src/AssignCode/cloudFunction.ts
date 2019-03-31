@@ -53,10 +53,9 @@ export const AssignCode = https.onRequest(async (req: Request, res: Response) =>
     } catch (err) {
         return res.status(500).json({error: "Uniedentified error occured"});
     }
-
-    console.log("student.data().assigned", !!student.data().assigned);
+    
     // Check if studnet has a code
-    if (student.exists && !!student.data().assigned) {
+    if (student.exists && student.data().assigned) {
         return res.status(403).json({error: "Student allready assigned code"});
     }
 
